@@ -1,4 +1,6 @@
 aniso8601==9.0.1
+beautifulsoup4==4.9.3
+Bootstrap-Flask==1.7.0
 CacheControl==0.12.6
 cachetools==4.2.2
 certifi==2021.5.30
@@ -46,6 +48,7 @@ requests==2.25.1
 requests-toolbelt==0.7.0
 rsa==4.7.2
 six==1.16.0
+soupsieve==2.2.1
 uritemplate==3.0.1
 urllib3==1.26.5
 Werkzeug==2.0.1
