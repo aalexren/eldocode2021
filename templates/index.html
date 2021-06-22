@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        {% block styles %}
+            <!-- Bootstrap CSS -->
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+
+        <title>Your page title</title>
+        {% endblock %}
+    </head>
+    <body>
+        <!-- Your page content -->
+        {% block content %}
+        <div class="row justify-content-center">
+            <div class="col-auto">
+              <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Название</th>
+                      <th scope="col">Ссылка</th>
+                      <th scope="col">Стоимость</th>
+                    </tr>
+                  </thead>
+                <tbody>
+                    {% set count = 1 %}
+                    {% for item in products -%}
+                    <tr>
+                        <th scope="row">{{ count }}</th>
+                        {% set count = count + 1 %}
+                        
+                            <td><a href={{ item }} target="_blank">{{ item }}</a></td>
+                            <!-- <td>7.00(per KG)</td> -->
+                    </tr> 
+                    {%- endfor %}
+                    <!-- <tr>
+                        <td>Books</td>
+                        <td>7.00(per KG)</td>
+                    </tr>
+                    <tr>
+                        <td>Soft Plastic</td>
+                        <td>15.00(per KG)</td>
+                    </tr>
+                <tr>
+                    <td>Hard Plastic</td>
+                    <td>2.00(per KG)</td>
+                </tr> -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {% endblock %}
+
+        {% block scripts %}
+            <!-- Optional JavaScript -->
+            {{ bootstrap.load_js() }}
+        {% endblock %}
+    </body>
+</html>
