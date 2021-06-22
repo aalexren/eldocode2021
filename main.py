@@ -1,6 +1,6 @@
 #!python
 
-from flask import Flask, json, jsonify, render_template, redirect, url_for
+from flask import Flask, json, jsonify, render_template, redirect, url_for, abort
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from flask_bootstrap import Bootstrap
@@ -61,15 +61,19 @@ def send_test_mail(body, receiver_email):
 
 @app.route('/')
 def index():
+    abort(403)
     return "Sorry, try to follow your QR-code"
 
 @app.route('/<string:cart_id>')
 def cart(cart_id):
     print(cart_id)
-    doc_ref = db.collection(u'carts').document(cart_id)
-    doc = doc_ref.get()
-    products = doc.get("products")
-    print(dict(products))
+    try:
+        doc_ref = db.collection(u'carts').document(cart_id)
+        doc = doc_ref.get()
+        products = doc.get("products")
+        print(dict(products))
+    except Exception as e:
+        print(e)
     return render_template('index.html', products=products)
 
 @app.route('/send-email/<string:cart_id>')
@@ -77,10 +81,13 @@ def send_email(cart_id):
     # doc_ref = db.collection(u'carts').document(cart_id)
     # doc = doc_ref.get()
     # products = doc.get("products")
-    send_test_mail('''Здравствуйте! 
-    Мы сохранили для Вас список товаров в сети магазинов Эльдорадо!
-    Чтобы вы ничего не потеряли, мы прикрепили к этому сообщению ссылку: http://children-of-corn-eldorado.herokuapp.com/''' + cart_id,
-    u'chernitca@ya.ru')
+    try:
+        send_test_mail('''Здравствуйте! 
+        Мы сохранили для Вас список товаров в сети магазинов Эльдорадо!
+        Чтобы вы ничего не потеряли, мы прикрепили к этому сообщению ссылку: http://children-of-corn-eldorado.herokuapp.com/''' + cart_id,
+        u'chernitca@ya.ru')
+    except Exception as e:
+        print(e)
     return redirect(url_for('cart', cart_id=cart_id))
     # render_template('index.html', products=products)
 
