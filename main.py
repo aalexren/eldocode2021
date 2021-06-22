@@ -21,10 +21,13 @@ cred = credentials.Certificate('children-of-corn-firebase-adminsdk-3hroc-1a3b5f4
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
+@app.route('/')
+def index():
+    return "Sorry, try to follow your QR-code"
 
 @app.route('/<string:cart_id>')
 def cart(cart_id):
-    doc_ref = db.collection(u'carts').document(u'oBEo885NgJAH7WOceHOA')
+    doc_ref = db.collection(u'carts').document(cart_id)
     doc = doc_ref.get()
     # html_doc = requests.get('https://www.eldorado.ru/cat/detail/ventilyator-napolnyy-status-for-life-st-sf-161m-wt-white/')
     # soup = BeautifulSoup (html_doc.content, 'html.parser')
