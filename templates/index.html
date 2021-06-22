@@ -17,6 +17,7 @@
     <body>
         <!-- Your page content -->
         {% block content %}
+        <div class="row justify-content-center"><h1>Ваш список товаров</h1></div>
         <div class="row justify-content-center">
             <div class="col-auto">
               <table class="table table-responsive table-striped">
@@ -29,14 +30,14 @@
                     </tr>
                   </thead>
                 <tbody>
-                    {% set count = 1 %}
+                    {% set count = namespace(value=1) %}
                     {% for item in products -%}
                     <tr>
-                        <th scope="row">{{ count }}</th>
-                        {% set count = count + 1 %}
-                        
-                            <td><a href={{ item }} target="_blank">{{ item }}</a></td>
-                            <!-- <td>7.00(per KG)</td> -->
+                        <th scope="row">{{ count.value }}</th>
+                        {% set count.value = count.value + 1 %}
+                        <td>{{ item['name'] }}</td>
+                        <td><a href={{ item['link'] }} target="_blank">{{ item['link'] }}</a></td>
+                        <td>{{ item['price'] }}</td>
                     </tr> 
                     {%- endfor %}
                     <!-- <tr>
