@@ -34,7 +34,7 @@ def send_test_mail(body, receiver_email):
     msg['From'] = sender_email
     msg['To'] = receiver_email
 
-    msgText = MIMEText('<b>%s</b>' % (body), 'html')
+    msgText = MIMEText(f'{body}', 'html')
     msg.attach(msgText)
 
     # filename = "example.txt"
