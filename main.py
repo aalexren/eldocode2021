@@ -66,26 +66,27 @@ def index():
 
 @app.route('/<string:cart_id>')
 def cart(cart_id):
-    print(cart_id)
+    # print(cart_id)
     try:
         doc_ref = db.collection(u'carts').document(cart_id)
         doc = doc_ref.get()
         products = doc.get("products")
-        print(dict(products))
+        # print(dict(products))
     except Exception as e:
         print(e)
     return render_template('index.html', products=products)
 
 @app.route('/send-email/<string:cart_id>')
 def send_email(cart_id):
-    # doc_ref = db.collection(u'carts').document(cart_id)
-    # doc = doc_ref.get()
-    # products = doc.get("products")
     try:
+        doc_ref = db.collection(u'carts').document(cart_id)
+        doc = doc_ref.get()
+        client = doc.get('client_ref').get()
+        email = db.collection(u'clients').document(str(client.id)).get().get('email')
         send_test_mail('''Здравствуйте! 
         Мы сохранили для Вас список товаров в сети магазинов Эльдорадо!
         Чтобы вы ничего не потеряли, мы прикрепили к этому сообщению ссылку: http://children-of-corn-eldorado.herokuapp.com/''' + cart_id,
-        u'chernitca@ya.ru')
+        email)
     except Exception as e:
         print(e)
     return redirect(url_for('cart', cart_id=cart_id))
