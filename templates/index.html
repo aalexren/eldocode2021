@@ -26,7 +26,7 @@
                       <th scope="col">#</th>
                       <th scope="col">Название</th>
                       <th scope="col">Ссылка</th>
-                      <th scope="col">Стоимость</th>
+                      <!-- <th scope="col">Стоимость</th> -->
                     </tr>
                   </thead>
                 <tbody>
@@ -37,7 +37,7 @@
                         {% set count.value = count.value + 1 %}
                         <td>{{ item['name'] }}</td>
                         <td><a href={{ item['link'] }} target="_blank">{{ item['link'] }}</a></td>
-                        <td>{{ item['price'] }}</td>
+                        <!-- <td>{{ item['price'] }}</td> -->
                     </tr> 
                     {%- endfor %}
                     <!-- <tr>

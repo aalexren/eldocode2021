@@ -1,6 +1,6 @@
 #!python
 
-from flask import Flask, json, jsonify, render_template
+from flask import Flask, json, jsonify, render_template, redirect, url_for
 from flask_restful import Resource, Api
 from flask_cors import CORS
 from flask_bootstrap import Bootstrap
@@ -25,9 +25,9 @@ cred = credentials.Certificate('children-of-corn-firebase-adminsdk-3hroc-1a3b5f4
 firebase_admin.initialize_app(cred)
 db = firestore.client()
 
-def send_test_mail(body):
+def send_test_mail(body, receiver_email):
     sender_email = "chernitca@ya.ru"
-    receiver_email = "seva.mikulik@gmail.com"
+    # receiver_email = "seva.mikulik@gmail.com"
 
     msg = MIMEMultipart()
     msg['Subject'] = '[Email Test]'
@@ -65,11 +65,24 @@ def index():
 
 @app.route('/<string:cart_id>')
 def cart(cart_id):
+    print(cart_id)
     doc_ref = db.collection(u'carts').document(cart_id)
     doc = doc_ref.get()
     products = doc.get("products")
-    print(dict(products[0]))
+    print(dict(products))
     return render_template('index.html', products=products)
+
+@app.route('/send-email/<string:cart_id>')
+def send_email(cart_id):
+    # doc_ref = db.collection(u'carts').document(cart_id)
+    # doc = doc_ref.get()
+    # products = doc.get("products")
+    send_test_mail('''Здравствуйте! 
+    Мы сохранили для Вас список товаров в сети магазинов Эльдорадо!
+    Чтобы вы ничего не потеряли, мы прикрепили к этому сообщению ссылку: http://children-of-corn-eldorado.herokuapp.com/''' + cart_id,
+    u'chernitca@ya.ru')
+    return redirect(url_for('cart', cart_id=cart_id))
+    # render_template('index.html', products=products)
 
 if __name__ == '__main__':
     # send_test_mail("Привет, Сева Микулик! :D")
