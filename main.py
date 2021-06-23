@@ -76,7 +76,7 @@ def cart(cart_id):
         print(e)
     return render_template('index.html', products=products)
 
-@app.route('/send-email/<string:cart_id>')
+@app.route('/send-email/<string:cart_id>', method=['POST', 'GET'])
 def send_email(cart_id):
     try:
         doc_ref = db.collection(u'carts').document(cart_id)
